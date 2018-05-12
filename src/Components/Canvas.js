@@ -24,7 +24,7 @@ class Canvas extends Component {
       const newGrid = surroundingGrid(this.state.gridData);
       updateCanvas(newGrid, ctx);
       this.setState({ gridData: newGrid });
-    }, 200);
+    }, 100);
   }
   initCanvas = () => {
     const ctx = this.refs.canvasRef.getContext("2d");

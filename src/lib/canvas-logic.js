@@ -1,6 +1,6 @@
 const width = 1000,
   height = 600,
-  gridSize = 10,
+  gridSize = 5,
   possibility = 0.8;
 
 export const drawGrid = props => {
@@ -52,11 +52,9 @@ export const surroundingGrid = grid =>
   grid.map((row, rowInd) =>
     row.map((val, colInd) => {
       const count = countSurrounding(grid, rowInd, colInd);
-      if (val === 1 && count < 2) return 0;
       if (val === 1 && (count === 2 || count === 3)) return 1;
-      if (val === 1 && count > 3) return 0;
       if (val === 0 && count === 3) return 1;
-      return val;
+      return 0;
     })
   );
 
@@ -72,7 +70,7 @@ const countSurrounding = (grid, rowInd, colInd) => {
     if (grid[rowInd - 1][colInd + 1] === 1) count += 1;
   }
   //bot
-  if (rowInd + 1 < 29) {
+  if (rowInd + 1 < height / gridSize) {
     if (grid[rowInd + 1][colInd - 1] === 1) count += 1;
     if (grid[rowInd + 1][colInd] === 1) count += 1;
     if (grid[rowInd + 1][colInd + 1] === 1) count += 1;
