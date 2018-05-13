@@ -10,9 +10,10 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 1000,
-      height: 600,
-      gridData: setInitialGrid()
+      width: props.width,
+      height: props.height,
+      gridData: props.gridData || [],
+      gridSize: props.gridSize || 10
     };
   }
   componentDidMount() {
@@ -21,18 +22,44 @@ class Canvas extends Component {
     this.updateCanvas();
     setInterval(() => {
       ctx.clearRect(0, 0, this.state.width, this.state.height);
-      const newGrid = surroundingGrid(this.state.gridData);
-      updateCanvas(newGrid, ctx);
+      const newGrid = surroundingGrid(
+        this.state.gridData,
+        this.state.width,
+        this.state.height,
+        this.state.gridSize
+      );
+      updateCanvas(
+        newGrid,
+        ctx,
+        this.state.width,
+        this.state.height,
+        this.state.gridSize
+      );
       this.setState({ gridData: newGrid });
-    }, 100);
+    }, 400);
   }
   initCanvas = () => {
+    console.log(this.props.gridData);
+    this.props.gridData === undefined &&
+      this.setState({
+        gridData: setInitialGrid(
+          this.state.width,
+          this.state.height,
+          this.state.gridSize
+        )
+      });
     const ctx = this.refs.canvasRef.getContext("2d");
-    drawGrid({ ctx });
+    drawGrid(ctx, this.state.width, this.state.height, this.state.gridSize);
   };
   updateCanvas = () => {
     const ctx = this.refs.canvasRef.getContext("2d");
-    updateCanvas(this.state.gridData, ctx);
+    updateCanvas(
+      this.state.gridData,
+      ctx,
+      this.state.width,
+      this.state.height,
+      this.state.gridSize
+    );
   };
   render() {
     const { width, height } = this.state;

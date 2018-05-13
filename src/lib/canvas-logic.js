@@ -1,25 +1,22 @@
-const width = 1000,
-  height = 600,
-  gridSize = 5,
-  possibility = 0.8;
+const possibility = 0.8;
 
-export const drawGrid = props => {
-  props.ctx.strokeStyle = "#111";
+export const drawGrid = (ctx, width, height, gridSize) => {
+  ctx.strokeStyle = "#111";
   for (let i = gridSize + 0.5; i < width; i += gridSize) {
-    props.ctx.beginPath();
-    props.ctx.moveTo(i, 0);
-    props.ctx.lineTo(i, height);
-    props.ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i, height);
+    ctx.stroke();
   }
   for (let i = gridSize + 0.5; i < height; i += gridSize) {
-    props.ctx.beginPath();
-    props.ctx.moveTo(0, i);
-    props.ctx.lineTo(width, i);
-    props.ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, i);
+    ctx.lineTo(width, i);
+    ctx.stroke();
   }
 };
 
-export const setInitialGrid = () => {
+export const setInitialGrid = (width, height, gridSize) => {
   let arr = [];
   for (let y = 0; y < height / gridSize; y++) {
     let row = [];
@@ -36,8 +33,8 @@ const randomizeGrid = grid =>
     row.map(singleVal => (singleVal = Math.random() < possibility ? 0 : 1))
   );
 
-export const updateCanvas = (grid, ctx) => {
-  drawGrid({ ctx });
+export const updateCanvas = (grid, ctx, width, height, gridSize) => {
+  drawGrid(ctx, width, height, gridSize);
   return grid.map((row, rowInd) =>
     row.map((singleVal, colInd) => {
       if (singleVal === 1) {
@@ -48,17 +45,17 @@ export const updateCanvas = (grid, ctx) => {
   );
 };
 
-export const surroundingGrid = grid =>
+export const surroundingGrid = (grid, width, height, gridSize) =>
   grid.map((row, rowInd) =>
     row.map((val, colInd) => {
-      const count = countSurrounding(grid, rowInd, colInd);
+      const count = countSurrounding(grid, rowInd, colInd, height, gridSize);
       if (val === 1 && (count === 2 || count === 3)) return 1;
       if (val === 0 && count === 3) return 1;
       return 0;
     })
   );
 
-const countSurrounding = (grid, rowInd, colInd) => {
+const countSurrounding = (grid, rowInd, colInd, height, gridSize) => {
   let count = 0;
   //left right
   if (grid[rowInd][colInd - 1] === 1) count += 1;
