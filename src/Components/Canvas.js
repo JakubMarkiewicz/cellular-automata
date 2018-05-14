@@ -40,7 +40,6 @@ class Canvas extends Component {
     }, this.state.speed);
   }
   initCanvas = () => {
-    console.log(this.props.gridData);
     this.props.gridData === undefined &&
       this.setState({
         gridData: setInitialGrid(
