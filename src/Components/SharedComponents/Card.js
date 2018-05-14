@@ -3,8 +3,10 @@ import Canvas from "../Canvas";
 import "../../Styles/card.css";
 
 const Card = props => (
-  <div className="card">
-    <div className="card_name">{props.name}</div>
+  <div className="card" style={{ flexBasis: "30%", marginBottom: "2em" }}>
+    <div className="card_name" style={{ paddingTop: 10 }}>
+      {props.name}
+    </div>
     <div
       style={{
         display: "flex",
@@ -14,8 +16,8 @@ const Card = props => (
       }}
     >
       <Canvas
-        height={250}
-        width={250}
+        height={props.height || 250}
+        width={props.width || 250}
         gridSize={props.gridSize || 10}
         gridData={props.gridData}
       />

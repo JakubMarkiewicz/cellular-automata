@@ -13,7 +13,8 @@ class Canvas extends Component {
       width: props.width,
       height: props.height,
       gridData: props.gridData || [],
-      gridSize: props.gridSize || 10
+      gridSize: props.gridSize || 1,
+      speed: props.speed || 300
     };
   }
   componentDidMount() {
@@ -36,7 +37,7 @@ class Canvas extends Component {
         this.state.gridSize
       );
       this.setState({ gridData: newGrid });
-    }, 400);
+    }, this.state.speed);
   }
   initCanvas = () => {
     console.log(this.props.gridData);

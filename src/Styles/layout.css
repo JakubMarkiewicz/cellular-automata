@@ -1,6 +1,5 @@
 .layout {
-  height: 100vh;
-  background: rgb(77, 77, 77);
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
