@@ -25,7 +25,6 @@ class Canvas extends Component {
       this.initCanvas();
       this.updateCanvas();
       setInterval(() => {
-        ctx.clearRect(0, 0, this.state.width, this.state.height);
         const newGrid = surroundingGrid(
           this.state.gridData,
           this.state.width,
@@ -39,6 +38,8 @@ class Canvas extends Component {
     }
   }
   componentDidUpdate() {
+    const ctx = this.refs.canvasRef.getContext("2d");
+    ctx.clearRect(0, 0, this.state.width, this.state.height);
     this.updateCanvas();
   }
   initCanvas = () => {
