@@ -3,7 +3,8 @@ import {
   drawGrid,
   setInitialGrid,
   updateCanvas,
-  surroundingGrid
+  surroundingGrid,
+  setInitialEmptyGrid
 } from "../lib/canvas-logic";
 
 class Canvas extends Component {
@@ -14,30 +15,31 @@ class Canvas extends Component {
       height: props.height,
       gridData: props.gridData || [],
       gridSize: props.gridSize || 1,
-      speed: props.speed || 300
+      speed: props.speed || 300,
+      building: props.building || false
     };
   }
   componentDidMount() {
     const ctx = this.refs.canvasRef.getContext("2d");
-    this.initCanvas();
+    if (!this.state.building) {
+      this.initCanvas();
+      this.updateCanvas();
+      setInterval(() => {
+        ctx.clearRect(0, 0, this.state.width, this.state.height);
+        const newGrid = surroundingGrid(
+          this.state.gridData,
+          this.state.width,
+          this.state.height,
+          this.state.gridSize
+        );
+        this.setState({ gridData: newGrid });
+      }, this.state.speed);
+    } else {
+      this.createEditableCanvas(ctx);
+    }
+  }
+  componentDidUpdate() {
     this.updateCanvas();
-    setInterval(() => {
-      ctx.clearRect(0, 0, this.state.width, this.state.height);
-      const newGrid = surroundingGrid(
-        this.state.gridData,
-        this.state.width,
-        this.state.height,
-        this.state.gridSize
-      );
-      updateCanvas(
-        newGrid,
-        ctx,
-        this.state.width,
-        this.state.height,
-        this.state.gridSize
-      );
-      this.setState({ gridData: newGrid });
-    }, this.state.speed);
   }
   initCanvas = () => {
     this.props.gridData === undefined &&
@@ -60,6 +62,25 @@ class Canvas extends Component {
       this.state.height,
       this.state.gridSize
     );
+  };
+  createEditableCanvas = ctx => {
+    drawGrid(ctx, this.state.width, this.state.height, this.state.gridSize);
+    const gridData = setInitialEmptyGrid(
+      this.state.width,
+      this.state.height,
+      this.state.gridSize
+    );
+    this.refs.canvasRef.addEventListener("click", this.setEditableCell);
+    this.setState({
+      gridData: gridData
+    });
+  };
+  setEditableCell = ev => {
+    const x = Math.floor(ev.layerX / this.state.gridSize);
+    const y = Math.floor(ev.layerY / this.state.gridSize);
+    let gridData = this.state.gridData;
+    gridData[y][x] = gridData[y][x] === 0 ? 1 : 0;
+    this.setState({ gridData });
   };
   render() {
     const { width, height } = this.state;

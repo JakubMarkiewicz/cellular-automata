@@ -6,7 +6,21 @@ import { linkTo } from "@storybook/addon-links";
 import Card from "../Components/SharedComponents/Card";
 import Canvas from "../Components/Canvas";
 import App from "../App";
-import { gliderGun, LWS, glider, beacon } from "../consts/conway-types";
+import Creator from "../Components/Creator";
+import {
+  gliderGun,
+  LWS,
+  glider,
+  beacon,
+  block,
+  beehive,
+  loaf,
+  boat,
+  tub,
+  blinker,
+  toad,
+  pulsar
+} from "../consts/conway-types";
 
 import { Button, Welcome } from "@storybook/react/demo";
 
@@ -24,57 +38,11 @@ storiesOf("Conway's Game of Life", module)
         justifyContent: "space-around"
       }}
     >
-      <Card
-        name="BLOCK"
-        gridSize={62.5}
-        gridData={[[0, 0, 0, 0], [0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]]}
-      />
-      <Card
-        name="BEEHIVE"
-        gridSize={42}
-        gridData={[
-          [0, 0, 0, 0, 0, 0],
-          [0, 0, 1, 1, 0, 0],
-          [0, 1, 0, 0, 1, 0],
-          [0, 0, 1, 1, 0, 0],
-          [0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0]
-        ]}
-      />
-      <Card
-        name="LOAF"
-        gridSize={42}
-        gridData={[
-          [0, 0, 0, 0, 0, 0],
-          [0, 0, 1, 1, 0, 0],
-          [0, 1, 0, 0, 1, 0],
-          [0, 0, 1, 0, 1, 0],
-          [0, 0, 0, 1, 0, 0],
-          [0, 0, 0, 0, 0, 0]
-        ]}
-      />
-      <Card
-        name="BOAT"
-        gridSize={50}
-        gridData={[
-          [0, 0, 0, 0, 0],
-          [0, 1, 1, 0, 0],
-          [0, 1, 0, 1, 0],
-          [0, 0, 1, 0, 0],
-          [0, 0, 0, 0, 0]
-        ]}
-      />
-      <Card
-        name="LOAF"
-        gridSize={50}
-        gridData={[
-          [0, 0, 0, 0, 0],
-          [0, 0, 1, 0, 0],
-          [0, 1, 0, 1, 0],
-          [0, 0, 1, 0, 0],
-          [0, 0, 0, 0, 0]
-        ]}
-      />
+      <Card name="BLOCK" gridSize={62.5} gridData={block} />
+      <Card name="BEEHIVE" gridSize={42} gridData={beehive} />
+      <Card name="LOAF" gridSize={42} gridData={loaf} />
+      <Card name="BOAT" gridSize={50} gridData={boat} />
+      <Card name="TUB" gridSize={50} gridData={tub} />
     </div>
   ))
   .add("Oscilators", () => (
@@ -86,42 +54,10 @@ storiesOf("Conway's Game of Life", module)
         justifyContent: "space-around"
       }}
     >
-      <Card
-        name="BLINKER"
-        gridSize={50}
-        gridData={[
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 1, 1, 1, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0]
-        ]}
-      />
-      <Card
-        name="TOAD"
-        gridSize={42}
-        gridData={[
-          [0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0],
-          [0, 0, 1, 1, 1, 0],
-          [0, 1, 1, 1, 0, 0],
-          [0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0]
-        ]}
-      />
-      <Card
-        name="BEACON"
-        gridSize={42}
-        gridData={[
-          [0, 0, 0, 0, 0, 0],
-          [0, 1, 1, 0, 0, 0],
-          [0, 1, 1, 0, 0, 0],
-          [0, 0, 0, 1, 1, 0],
-          [0, 0, 0, 1, 1, 0],
-          [0, 0, 0, 0, 0, 0]
-        ]}
-      />
-      <Card name="BEACON" gridSize={15} gridData={beacon} />
+      <Card name="BLINKER" gridSize={50} gridData={blinker} />
+      <Card name="TOAD" gridSize={42} gridData={toad} />
+      <Card name="BEACON" gridSize={42} gridData={beacon} />
+      <Card name="PULSAR" gridSize={15} gridData={pulsar} />
     </div>
   ))
   .add("Space Ships", () => (
@@ -156,3 +92,5 @@ storiesOf("Conway's Game of Life", module)
     </div>
   ))
   .add("Playground", () => <App />);
+
+storiesOf("Creator", module).add("Data grid", () => <Creator />);

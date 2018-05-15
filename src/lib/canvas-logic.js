@@ -16,17 +16,17 @@ export const drawGrid = (ctx, width, height, gridSize) => {
   }
 };
 
-export const setInitialGrid = (width, height, gridSize) => {
-  let arr = [];
-  for (let y = 0; y < height / gridSize; y++) {
-    let row = [];
-    for (let i = 0; i < width / gridSize; i++) {
-      row.push(0);
-    }
-    arr.push(row);
-  }
-  return randomizeGrid(arr);
-};
+export const setInitialGrid = (width, height, gridSize) =>
+  randomizeGrid(
+    Array.from({ length: height / gridSize }, row =>
+      Array.from({ length: width / gridSize }, val => 0)
+    )
+  );
+
+export const setInitialEmptyGrid = (width, height, gridSize) =>
+  Array.from({ length: height / gridSize }, row =>
+    Array.from({ length: width / gridSize }, val => 0)
+  );
 
 const randomizeGrid = grid =>
   grid.map(row =>
