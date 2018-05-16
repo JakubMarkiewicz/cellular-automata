@@ -17,11 +17,7 @@ export const drawGrid = (ctx, width, height, gridSize) => {
 };
 
 export const setInitialGrid = (width, height, gridSize) =>
-  randomizeGrid(
-    Array.from({ length: height / gridSize }, row =>
-      Array.from({ length: width / gridSize }, val => 0)
-    )
-  );
+  randomizeGrid(setInitialEmptyGrid(width, height, gridSize));
 
 export const setInitialEmptyGrid = (width, height, gridSize) =>
   Array.from({ length: height / gridSize }, row =>

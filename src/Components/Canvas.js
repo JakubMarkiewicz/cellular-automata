@@ -6,6 +6,7 @@ import {
   surroundingGrid,
   setInitialEmptyGrid
 } from "../lib/canvas-logic";
+import { initAnt, moveAnt } from "../lib/langtons-logic";
 
 class Canvas extends Component {
   constructor(props) {
@@ -16,15 +17,30 @@ class Canvas extends Component {
       gridData: props.gridData || [],
       gridSize: props.gridSize || 1,
       speed: props.speed || 300,
-      building: props.building || false
+      building: props.building || false,
+      type: props.type || "life"
     };
   }
   componentDidMount() {
     const ctx = this.refs.canvasRef.getContext("2d");
-    if (!this.state.building) {
+    if (this.state.type === "ant") {
+      this.createEmptyCanvas();
+      let antInterval = setInterval(() => {
+        const data = moveAnt(
+          this.state.position,
+          this.state.direction,
+          this.state.gridData
+        );
+        this.setState({
+          gridData: data.gridData,
+          direction: data.newDirection
+        });
+      }, this.state.speed);
+      this.setState({ intervalId: antInterval });
+    } else if (!this.state.building) {
       this.initCanvas();
       this.updateCanvas();
-      setInterval(() => {
+      const lifeInterval = setInterval(() => {
         const newGrid = surroundingGrid(
           this.state.gridData,
           this.state.width,
@@ -33,6 +49,7 @@ class Canvas extends Component {
         );
         this.setState({ gridData: newGrid });
       }, this.state.speed);
+      this.setState({ intervalId: lifeInterval });
     } else {
       this.createEditableCanvas(ctx);
     }
@@ -41,6 +58,9 @@ class Canvas extends Component {
     const ctx = this.refs.canvasRef.getContext("2d");
     ctx.clearRect(0, 0, this.state.width, this.state.height);
     this.updateCanvas();
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
   }
   initCanvas = () => {
     this.props.gridData === undefined &&
@@ -64,14 +84,34 @@ class Canvas extends Component {
       this.state.gridSize
     );
   };
-  createEditableCanvas = ctx => {
+  createEditableCanvas = () => {
+    const ctx = this.refs.canvasRef.getContext("2d");
+    this.createEmptyCanvas(ctx);
+    this.refs.canvasRef.addEventListener("click", this.setEditableCell);
+  };
+  createEmptyCanvas = ctx => {
+    ctx = ctx || this.refs.canvasRef.getContext("2d");
     drawGrid(ctx, this.state.width, this.state.height, this.state.gridSize);
-    const gridData = setInitialEmptyGrid(
+    let gridData = setInitialEmptyGrid(
       this.state.width,
       this.state.height,
       this.state.gridSize
     );
-    this.refs.canvasRef.addEventListener("click", this.setEditableCell);
+    if (this.state.type === "ant") {
+      initAnt(
+        this.state.width,
+        this.state.height,
+        this.state.gridSize,
+        gridData
+      );
+      this.setState({
+        position: {
+          x: this.state.width / this.state.gridSize / 2,
+          y: this.state.height / this.state.gridSize / 2
+        },
+        direction: "up"
+      });
+    }
     this.setState({
       gridData: gridData
     });

@@ -7,6 +7,7 @@ import Card from "../Components/SharedComponents/Card";
 import Canvas from "../Components/Canvas";
 import App from "../App";
 import Creator from "../Components/Creator";
+import Layout from "../Components/SharedComponents/Layout";
 import {
   gliderGun,
   LWS,
@@ -23,10 +24,6 @@ import {
 } from "../consts/conway-types";
 
 import { Button, Welcome } from "@storybook/react/demo";
-
-storiesOf("Welcome", module).add("to Storybook", () => (
-  <Welcome showApp={linkTo("Button")} />
-));
 
 storiesOf("Conway's Game of Life", module)
   .add("Static", () => (
@@ -92,5 +89,11 @@ storiesOf("Conway's Game of Life", module)
     </div>
   ))
   .add("Playground", () => <App />);
+
+storiesOf("Langton's ant", module).add("Playground", () => (
+  <Layout>
+    <Canvas width={1000} height={600} gridSize={5} speed={1} type="ant" />
+  </Layout>
+));
 
 storiesOf("Creator", module).add("Data grid", () => <Creator />);

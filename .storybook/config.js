@@ -10,7 +10,7 @@ setOptions({
    * name to display in the top left corner
    * @type {String}
    */
-  name: "Game of Life",
+  name: "Cellular Automata",
   /**
    * URL for name in top left corner to link to
    * @type {String}
