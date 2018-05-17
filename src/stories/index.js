@@ -22,6 +22,7 @@ import {
   toad,
   pulsar
 } from "../consts/conway-types";
+import { test } from "../consts/wireworld-types";
 
 import { Button, Welcome } from "@storybook/react/demo";
 
@@ -95,5 +96,16 @@ storiesOf("Langton's ant", module).add("Playground", () => (
     <Canvas width={1000} height={600} gridSize={5} speed={1} type="ant" />
   </Layout>
 ));
-
+storiesOf("Wireworld", module).add("Playground", () => (
+  <Layout>
+    <Canvas
+      width={1000}
+      height={500}
+      gridSize={50}
+      speed={100}
+      type="wire"
+      gridData={test}
+    />
+  </Layout>
+));
 storiesOf("Creator", module).add("Data grid", () => <Creator />);

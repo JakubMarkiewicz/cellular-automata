@@ -51,6 +51,7 @@ class Creator extends Component {
             width={width}
             gridSize={gridSize}
             building={true}
+            type="creator"
           />
         )}
       </div>

@@ -6,7 +6,9 @@ import {
   surroundingGrid,
   setInitialEmptyGrid
 } from "../lib/canvas-logic";
+import { updateWireCanvas, moveWire } from "../lib/wireworld-logic";
 import { initAnt, moveAnt } from "../lib/langtons-logic";
+import Data from "./SharedComponents/Data";
 
 class Canvas extends Component {
   constructor(props) {
@@ -18,41 +20,13 @@ class Canvas extends Component {
       gridSize: props.gridSize || 1,
       speed: props.speed || 300,
       building: props.building || false,
-      type: props.type || "life"
+      type: props.type || "life",
+      generation: 0,
+      running: true
     };
   }
   componentDidMount() {
-    const ctx = this.refs.canvasRef.getContext("2d");
-    if (this.state.type === "ant") {
-      this.createEmptyCanvas();
-      let antInterval = setInterval(() => {
-        const data = moveAnt(
-          this.state.position,
-          this.state.direction,
-          this.state.gridData
-        );
-        this.setState({
-          gridData: data.gridData,
-          direction: data.newDirection
-        });
-      }, this.state.speed);
-      this.setState({ intervalId: antInterval });
-    } else if (!this.state.building) {
-      this.initCanvas();
-      this.updateCanvas();
-      const lifeInterval = setInterval(() => {
-        const newGrid = surroundingGrid(
-          this.state.gridData,
-          this.state.width,
-          this.state.height,
-          this.state.gridSize
-        );
-        this.setState({ gridData: newGrid });
-      }, this.state.speed);
-      this.setState({ intervalId: lifeInterval });
-    } else {
-      this.createEditableCanvas(ctx);
-    }
+    this.selectCanvas();
   }
   componentDidUpdate() {
     const ctx = this.refs.canvasRef.getContext("2d");
@@ -62,6 +36,75 @@ class Canvas extends Component {
   componentWillUnmount() {
     clearInterval(this.state.intervalId);
   }
+  selectCanvas = () => {
+    switch (this.state.type) {
+      case "ant":
+        this.initAntCanvas();
+        break;
+      case "life":
+        this.initLifeCanvas();
+        break;
+      case "wire":
+        this.initWireCanvas();
+        break;
+      default:
+        this.createEditableCanvas();
+    }
+  };
+
+  initWireCanvas = () => {
+    let wireInterval = setInterval(() => {
+      if (!this.state.running) return;
+      // const data = moveWire(this.state.gridData);
+      const gridData = moveWire(
+        this.state.gridData,
+        this.state.height,
+        this.state.gridSize
+      );
+      this.setState(prevState => ({
+        gridData,
+        generation: prevState.generation + 1
+      }));
+    }, this.state.speed);
+    this.setState({ intervalId: wireInterval });
+  };
+
+  initAntCanvas = () => {
+    this.createEmptyCanvas();
+    let antInterval = setInterval(() => {
+      if (!this.state.running) return;
+      const data = moveAnt(
+        this.state.position,
+        this.state.direction,
+        this.state.gridData
+      );
+      this.setState(prevState => ({
+        gridData: data.gridData,
+        direction: data.newDirection,
+        generation: prevState.generation + 1
+      }));
+    }, this.state.speed);
+    this.setState({ intervalId: antInterval });
+  };
+
+  initLifeCanvas = () => {
+    this.initCanvas();
+    const lifeInterval = setInterval(() => {
+      if (!this.state.running) return;
+      const newGrid = surroundingGrid(
+        this.state.gridData,
+        this.state.width,
+        this.state.height,
+        this.state.gridSize
+      );
+      this.setState(prevState => ({
+        gridData: newGrid,
+        generation: prevState.generation + 1
+      }));
+    }, this.state.speed);
+    this.setState({ intervalId: lifeInterval });
+  };
+
   initCanvas = () => {
     this.props.gridData === undefined &&
       this.setState({
@@ -76,21 +119,33 @@ class Canvas extends Component {
   };
   updateCanvas = () => {
     const ctx = this.refs.canvasRef.getContext("2d");
-    updateCanvas(
-      this.state.gridData,
-      ctx,
-      this.state.width,
-      this.state.height,
-      this.state.gridSize
-    );
+    switch (this.state.type) {
+      case "wire":
+        updateWireCanvas(
+          this.state.gridData,
+          ctx,
+          this.state.width,
+          this.state.height,
+          this.state.gridSize
+        );
+        break;
+      default:
+        updateCanvas(
+          this.state.gridData,
+          ctx,
+          this.state.width,
+          this.state.height,
+          this.state.gridSize
+        );
+    }
   };
   createEditableCanvas = () => {
     const ctx = this.refs.canvasRef.getContext("2d");
     this.createEmptyCanvas(ctx);
     this.refs.canvasRef.addEventListener("click", this.setEditableCell);
   };
-  createEmptyCanvas = ctx => {
-    ctx = ctx || this.refs.canvasRef.getContext("2d");
+  createEmptyCanvas = () => {
+    const ctx = this.refs.canvasRef.getContext("2d");
     drawGrid(ctx, this.state.width, this.state.height, this.state.gridSize);
     let gridData = setInitialEmptyGrid(
       this.state.width,
@@ -116,6 +171,8 @@ class Canvas extends Component {
       gridData: gridData
     });
   };
+  setRunning = () =>
+    this.setState(prevState => ({ running: !prevState.running }));
   setEditableCell = ev => {
     const x = Math.floor(ev.layerX / this.state.gridSize);
     const y = Math.floor(ev.layerY / this.state.gridSize);
@@ -133,6 +190,13 @@ class Canvas extends Component {
           height={height}
           style={{ background: "black" }}
         />
+        {this.state.type !== "creator" && (
+          <Data
+            generation={this.state.generation}
+            setRunning={this.setRunning}
+            running={this.state.running}
+          />
+        )}
       </div>
     );
   }
