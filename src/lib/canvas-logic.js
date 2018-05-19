@@ -56,7 +56,7 @@ export const surroundingGrid = (grid, width, height, gridSize) =>
     })
   );
 
-const countSurrounding = (grid, rowInd, colInd, height, gridSize) => {
+export const countSurrounding = (grid, rowInd, colInd, height, gridSize) => {
   let count = 0;
   //left right
   if (grid[rowInd][colInd - 1] === 1) count += 1;

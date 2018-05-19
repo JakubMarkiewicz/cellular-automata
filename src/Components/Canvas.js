@@ -10,6 +10,7 @@ import { updateWireCanvas, moveWire } from "../lib/wireworld-logic";
 import { initAnt, moveAnt } from "../lib/langtons-logic";
 import Data from "./SharedComponents/Data";
 import EditorData from "./SharedComponents/EditorData";
+import { moveSeeds } from "../lib/seeds-logic";
 const copy = require("clipboard-copy");
 
 class Canvas extends Component {
@@ -50,7 +51,7 @@ class Canvas extends Component {
   };
 
   initCanvas = () => {
-    this.props.gridData === undefined &&
+    if (this.props.gridData === undefined) {
       this.setState({
         gridData: setInitialGrid(
           this.state.width,
@@ -58,6 +59,9 @@ class Canvas extends Component {
           this.state.gridSize
         )
       });
+    } else {
+      this.setState({ gridData: this.props.gridData });
+    }
     const ctx = this.refs.canvasRef.getContext("2d");
     drawGrid(ctx, this.state.width, this.state.height, this.state.gridSize);
   };
@@ -140,6 +144,23 @@ class Canvas extends Component {
         }, this.state.speed);
         this.setState({ intervalId: antInterval });
         break;
+      case "seeds":
+        this.initCanvas();
+        let seedsInterval = setInterval(() => {
+          if (!this.state.running) return;
+          const gridData = moveSeeds(
+            this.state.gridData,
+            this.state.width,
+            this.state.height,
+            this.state.gridSize
+          );
+          this.setState(prevState => ({
+            gridData,
+            generation: prevState.generation + 1
+          }));
+        }, this.state.speed);
+        this.setState({ intervalId: seedsInterval });
+        break;
       default:
     }
   };
@@ -185,13 +206,26 @@ class Canvas extends Component {
     const x = Math.floor(ev.layerX / this.state.gridSize);
     const y = Math.floor(ev.layerY / this.state.gridSize);
     let gridData = this.state.gridData;
-    gridData[y][x] = this.state.editorCellType;
+    if (gridData[y][x] === this.state.editorCellType) {
+      gridData[y][x] = 0;
+    } else {
+      gridData[y][x] = this.state.editorCellType;
+    }
     this.setState({ gridData });
   };
-  setCellType = ev =>
+  setCellType = ev => {
     this.setState({ editorCellType: parseInt(ev.target.value) });
-
+  };
   copyGridData = () => copy(JSON.stringify(this.state.gridData));
+
+  resetState = () => {
+    clearInterval(this.state.intervalId);
+    this.setState({
+      generation: 0,
+      gridData: this.props.gridData || []
+    });
+    this.selectCanvas();
+  };
 
   render() {
     const { width, height } = this.state;
@@ -208,6 +242,7 @@ class Canvas extends Component {
             generation={this.state.generation}
             setRunning={this.setRunning}
             running={this.state.running}
+            resetState={this.resetState}
           />
         ) : (
           <EditorData

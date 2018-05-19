@@ -11,5 +11,6 @@ import "./Wireworld/ANDNOT";
 import "./Wireworld/OR";
 import "./Wireworld/XOR";
 import "./Wireworld/playground";
+import "./Seeds/playground";
 
 import "./Creator/playground";

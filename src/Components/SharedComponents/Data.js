@@ -1,11 +1,10 @@
 import React from "react";
 
-const Data = props => (
+const Data = ({ generation, setRunning, resetState, running }) => (
   <div className="data">
-    <span>Generation: {props.generation}</span>
-    <button onClick={() => props.setRunning()}>
-      {props.running ? "Pause" : "Continue"}
-    </button>
+    <span>Generation: {generation}</span>
+    <button onClick={setRunning}>{running ? "Pause" : "Continue"}</button>
+    <button onClick={resetState}>Reset</button>
   </div>
 );
 
