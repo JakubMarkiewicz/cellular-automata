@@ -5,30 +5,30 @@ export const updateWireCanvas = (grid, ctx, width, height, gridSize) => {
   return grid.map((row, rowInd) =>
     row.map((singleVal, colInd) => {
       if (singleVal === 1) {
-        ctx.fillStyle = "#0000FF";
+        ctx.fillStyle = "#3AB6D5";
         ctx.fillRect(
-          colInd * gridSize + gridSize * 0.05,
-          rowInd * gridSize + gridSize * 0.05,
-          gridSize - gridSize * 0.05,
-          gridSize - gridSize * 0.05
+          colInd * gridSize + gridSize * 0.02,
+          rowInd * gridSize + gridSize * 0.02,
+          gridSize - gridSize * 0.04,
+          gridSize - gridSize * 0.04
         );
       }
       if (singleVal === 2) {
-        ctx.fillStyle = "#FF0000";
+        ctx.fillStyle = "#ff7675";
         ctx.fillRect(
-          colInd * gridSize + gridSize * 0.05,
-          rowInd * gridSize + gridSize * 0.05,
-          gridSize - gridSize * 0.05,
-          gridSize - gridSize * 0.05
+          colInd * gridSize + gridSize * 0.02,
+          rowInd * gridSize + gridSize * 0.02,
+          gridSize - gridSize * 0.04,
+          gridSize - gridSize * 0.04
         );
       }
       if (singleVal === 3) {
-        ctx.fillStyle = "#FFFF00";
+        ctx.fillStyle = "#F79701";
         ctx.fillRect(
-          colInd * gridSize + gridSize * 0.05,
-          rowInd * gridSize + gridSize * 0.05,
-          gridSize - gridSize * 0.06,
-          gridSize - gridSize * 0.06
+          colInd * gridSize + gridSize * 0.02,
+          rowInd * gridSize + gridSize * 0.02,
+          gridSize - gridSize * 0.04,
+          gridSize - gridSize * 0.04
         );
       }
     })

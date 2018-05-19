@@ -36,10 +36,10 @@ export const updateCanvas = (grid, ctx, width, height, gridSize) => {
       if (singleVal === 1) {
         ctx.fillStyle = "#FFF";
         ctx.fillRect(
-          colInd * gridSize + gridSize * 0.05,
-          rowInd * gridSize + gridSize * 0.05,
-          gridSize - gridSize * 0.05,
-          gridSize - gridSize * 0.05
+          colInd * gridSize + gridSize * 0.02,
+          rowInd * gridSize + gridSize * 0.02,
+          gridSize - gridSize * 0.04,
+          gridSize - gridSize * 0.04
         );
       }
     })
