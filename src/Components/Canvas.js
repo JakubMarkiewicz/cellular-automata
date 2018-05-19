@@ -11,6 +11,7 @@ import { initAnt, moveAnt } from "../lib/langtons-logic";
 import Data from "./SharedComponents/Data";
 import EditorData from "./SharedComponents/EditorData";
 import { moveSeeds } from "../lib/seeds-logic";
+import { moveBrain, updateBrainCanvas } from "../lib/brain-logic";
 const copy = require("clipboard-copy");
 
 class Canvas extends Component {
@@ -70,6 +71,15 @@ class Canvas extends Component {
     switch (this.state.type) {
       case "wire":
         updateWireCanvas(
+          this.state.gridData,
+          ctx,
+          this.state.width,
+          this.state.height,
+          this.state.gridSize
+        );
+        break;
+      case "brain":
+        updateBrainCanvas(
           this.state.gridData,
           ctx,
           this.state.width,
@@ -145,7 +155,7 @@ class Canvas extends Component {
         this.setState({ intervalId: antInterval });
         break;
       case "seeds":
-        this.initCanvas();
+        // this.initCanvas();
         let seedsInterval = setInterval(() => {
           if (!this.state.running) return;
           const gridData = moveSeeds(
@@ -160,6 +170,22 @@ class Canvas extends Component {
           }));
         }, this.state.speed);
         this.setState({ intervalId: seedsInterval });
+        break;
+      case "brain":
+        let brainInterval = setInterval(() => {
+          if (!this.state.running) return;
+          const gridData = moveBrain(
+            this.state.gridData,
+            this.state.width,
+            this.state.height,
+            this.state.gridSize
+          );
+          this.setState(prevState => ({
+            gridData,
+            generation: prevState.generation + 1
+          }));
+        }, this.state.speed);
+        this.setState({ intervalId: brainInterval });
         break;
       default:
     }

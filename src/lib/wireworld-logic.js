@@ -5,7 +5,7 @@ export const updateWireCanvas = (grid, ctx, width, height, gridSize) => {
   return grid.map((row, rowInd) =>
     row.map((singleVal, colInd) => {
       if (singleVal === 1) {
-        ctx.fillStyle = "#3AB6D5";
+        ctx.fillStyle = "#005BFF";
         ctx.fillRect(
           colInd * gridSize + gridSize * 0.02,
           rowInd * gridSize + gridSize * 0.02,
@@ -14,7 +14,7 @@ export const updateWireCanvas = (grid, ctx, width, height, gridSize) => {
         );
       }
       if (singleVal === 2) {
-        ctx.fillStyle = "#ff7675";
+        ctx.fillStyle = "#E71D36";
         ctx.fillRect(
           colInd * gridSize + gridSize * 0.02,
           rowInd * gridSize + gridSize * 0.02,
@@ -23,7 +23,7 @@ export const updateWireCanvas = (grid, ctx, width, height, gridSize) => {
         );
       }
       if (singleVal === 3) {
-        ctx.fillStyle = "#F79701";
+        ctx.fillStyle = "#FFC16E";
         ctx.fillRect(
           colInd * gridSize + gridSize * 0.02,
           rowInd * gridSize + gridSize * 0.02,

@@ -3,17 +3,17 @@ import { storiesOf } from "@storybook/react";
 import { linkTo } from "@storybook/addon-links";
 import Layout from "../../Components/SharedComponents/Layout";
 import Canvas from "../../Components/Canvas";
-import { XOR } from "../../consts/wireworld-types";
+import { init } from "../../consts/briansBrain-types";
 
-storiesOf("Wireworld", module).add("XOR", () => (
+storiesOf("Brian's Brain", module).add("Playground", () => (
   <Layout>
     <Canvas
-      width={800}
+      width={1000}
       height={600}
-      gridSize={40}
-      speed={250}
-      type="wire"
-      gridData={XOR}
+      gridSize={2}
+      speed={100}
+      type="brain"
+      gridData={init}
     />
   </Layout>
 ));

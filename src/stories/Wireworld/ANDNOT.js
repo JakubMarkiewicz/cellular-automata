@@ -11,7 +11,7 @@ storiesOf("Wireworld", module).add("AND NOT", () => (
       width={900}
       height={600}
       gridSize={30}
-      speed={500}
+      speed={250}
       type="wire"
       gridData={NAND}
     />

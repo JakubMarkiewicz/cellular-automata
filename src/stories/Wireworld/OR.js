@@ -11,7 +11,7 @@ storiesOf("Wireworld", module).add("OR", () => (
       width={800}
       height={600}
       gridSize={20}
-      speed={500}
+      speed={250}
       type="wire"
       gridData={OR}
     />
