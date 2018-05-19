@@ -32,6 +32,7 @@ class Canvas extends Component {
     const ctx = this.refs.canvasRef.getContext("2d");
     ctx.clearRect(0, 0, this.state.width, this.state.height);
     this.updateCanvas();
+    console.log(JSON.stringify(this.state.gridData));
   }
   componentWillUnmount() {
     clearInterval(this.state.intervalId);

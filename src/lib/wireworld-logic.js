@@ -6,15 +6,30 @@ export const updateWireCanvas = (grid, ctx, width, height, gridSize) => {
     row.map((singleVal, colInd) => {
       if (singleVal === 1) {
         ctx.fillStyle = "#0000FF";
-        ctx.fillRect(colInd * gridSize, rowInd * gridSize, gridSize, gridSize);
+        ctx.fillRect(
+          colInd * gridSize + gridSize * 0.05,
+          rowInd * gridSize + gridSize * 0.05,
+          gridSize - gridSize * 0.05,
+          gridSize - gridSize * 0.05
+        );
       }
       if (singleVal === 2) {
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(colInd * gridSize, rowInd * gridSize, gridSize, gridSize);
+        ctx.fillRect(
+          colInd * gridSize + gridSize * 0.05,
+          rowInd * gridSize + gridSize * 0.05,
+          gridSize - gridSize * 0.05,
+          gridSize - gridSize * 0.05
+        );
       }
       if (singleVal === 3) {
         ctx.fillStyle = "#FFFF00";
-        ctx.fillRect(colInd * gridSize, rowInd * gridSize, gridSize, gridSize);
+        ctx.fillRect(
+          colInd * gridSize + gridSize * 0.05,
+          rowInd * gridSize + gridSize * 0.05,
+          gridSize - gridSize * 0.06,
+          gridSize - gridSize * 0.06
+        );
       }
     })
   );
