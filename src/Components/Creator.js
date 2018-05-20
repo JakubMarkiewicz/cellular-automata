@@ -1,17 +1,24 @@
+// @flow
+
 import React, { Component } from "react";
 import Canvas from "./Canvas";
 
-class Creator extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gridSize: 0,
-      width: 0,
-      height: 0,
-      building: true
-    };
-  }
-  onChange = (type, data) => this.setState({ [type]: parseInt(data) });
+type State = {
+  gridSize: number,
+  width: number,
+  height: number,
+  building: boolean
+};
+type Props = {};
+class Creator extends Component<Props, State> {
+  state = {
+    gridSize: 0,
+    width: 0,
+    height: 0,
+    building: true
+  };
+  onChange = (type: string, data: string) =>
+    this.setState({ [type]: parseInt(data) });
   createCanvas = () => this.setState({ building: false });
   render() {
     const { building, gridSize, width, height } = this.state;

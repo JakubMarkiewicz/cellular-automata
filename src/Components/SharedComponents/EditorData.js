@@ -1,6 +1,15 @@
+// @flow
+
 import React from "react";
 
-const EditorData = ({ setType, type, setCellType, copyGridData }) => (
+type Props = {
+  setType: Function,
+  type: string,
+  setCellType: Function,
+  copyGridData: Function
+};
+
+const EditorData = ({ setType, type, setCellType, copyGridData }: Props) => (
   <div className="data">
     <select onChange={setType}>
       <option value="life">Game of life</option>

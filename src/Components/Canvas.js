@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from "react";
 import {
   drawGrid,
@@ -14,29 +16,51 @@ import { moveSeeds } from "../lib/seeds-logic";
 import { moveBrain, updateBrainCanvas } from "../lib/brain-logic";
 const copy = require("clipboard-copy");
 
-class Canvas extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: props.width,
-      height: props.height,
-      gridData: props.gridData || [],
-      gridSize: props.gridSize || 1,
-      speed: props.speed || 300,
-      building: props.building || false,
-      type: props.type || "life",
-      creator: props.creator || false,
-      generation: 0,
-      editorCellType: 1,
-      running: true
-    };
-  }
+type State = {
+  gridData: Array<any>,
+  gridSize: number,
+  speed: number,
+  building: boolean,
+  type: string,
+  creator: boolean,
+  generation: number,
+  editorCellType: number,
+  running: boolean,
+  intervalId?: Function,
+  position?: Object,
+  direction?: string
+};
+
+type Props = {
+  building?: boolean,
+  creator?: boolean,
+  gridData?: Array<any>,
+  gridSize?: number,
+  height: number,
+  speed?: number,
+  type?: string,
+  width: number
+};
+class Canvas extends Component<Props, State> {
+  state = {
+    gridData: this.props.gridData || [],
+    gridSize: this.props.gridSize || 1,
+    speed: this.props.speed || 300,
+    building: this.props.building || false,
+    type: this.props.type || "life",
+    creator: this.props.creator || false,
+    generation: 0,
+    editorCellType: 1,
+    running: true,
+    position: {},
+    direction: ""
+  };
   componentDidMount() {
     this.selectCanvas();
   }
   componentDidUpdate() {
     const ctx = this.refs.canvasRef.getContext("2d");
-    ctx.clearRect(0, 0, this.state.width, this.state.height);
+    ctx.clearRect(0, 0, this.props.width, this.props.height);
     this.updateCanvas();
   }
   componentWillUnmount() {
@@ -55,8 +79,8 @@ class Canvas extends Component {
     if (this.props.gridData === undefined) {
       this.setState({
         gridData: setInitialGrid(
-          this.state.width,
-          this.state.height,
+          this.props.width,
+          this.props.height,
           this.state.gridSize
         )
       });
@@ -64,7 +88,7 @@ class Canvas extends Component {
       this.setState({ gridData: this.props.gridData });
     }
     const ctx = this.refs.canvasRef.getContext("2d");
-    drawGrid(ctx, this.state.width, this.state.height, this.state.gridSize);
+    drawGrid(ctx, this.props.width, this.props.height, this.state.gridSize);
   };
   updateCanvas = () => {
     const ctx = this.refs.canvasRef.getContext("2d");
@@ -73,8 +97,8 @@ class Canvas extends Component {
         updateWireCanvas(
           this.state.gridData,
           ctx,
-          this.state.width,
-          this.state.height,
+          this.props.width,
+          this.props.height,
           this.state.gridSize
         );
         break;
@@ -82,8 +106,8 @@ class Canvas extends Component {
         updateBrainCanvas(
           this.state.gridData,
           ctx,
-          this.state.width,
-          this.state.height,
+          this.props.width,
+          this.props.height,
           this.state.gridSize
         );
         break;
@@ -91,15 +115,14 @@ class Canvas extends Component {
         updateCanvas(
           this.state.gridData,
           ctx,
-          this.state.width,
-          this.state.height,
+          this.props.width,
+          this.props.height,
           this.state.gridSize
         );
     }
   };
   createEditableCanvas = () => {
-    const ctx = this.refs.canvasRef.getContext("2d");
-    this.createEmptyCanvas(ctx);
+    this.createEmptyCanvas();
     this.refs.canvasRef.addEventListener("click", this.setEditableCell);
   };
   setInterval = () => {
@@ -110,8 +133,8 @@ class Canvas extends Component {
           if (!this.state.running) return;
           const newGrid = surroundingGrid(
             this.state.gridData,
-            this.state.width,
-            this.state.height,
+            this.props.width,
+            this.props.height,
             this.state.gridSize
           );
           this.setState(prevState => ({
@@ -127,7 +150,7 @@ class Canvas extends Component {
           // const data = moveWire(this.state.gridData);
           const gridData = moveWire(
             this.state.gridData,
-            this.state.height,
+            this.props.height,
             this.state.gridSize
           );
           this.setState(prevState => ({
@@ -160,8 +183,8 @@ class Canvas extends Component {
           if (!this.state.running) return;
           const gridData = moveSeeds(
             this.state.gridData,
-            this.state.width,
-            this.state.height,
+            this.props.width,
+            this.props.height,
             this.state.gridSize
           );
           this.setState(prevState => ({
@@ -176,8 +199,8 @@ class Canvas extends Component {
           if (!this.state.running) return;
           const gridData = moveBrain(
             this.state.gridData,
-            this.state.width,
-            this.state.height,
+            this.props.width,
+            this.props.height,
             this.state.gridSize
           );
           this.setState(prevState => ({
@@ -192,23 +215,23 @@ class Canvas extends Component {
   };
   createEmptyCanvas = () => {
     const ctx = this.refs.canvasRef.getContext("2d");
-    drawGrid(ctx, this.state.width, this.state.height, this.state.gridSize);
+    drawGrid(ctx, this.props.width, this.props.height, this.state.gridSize);
     let gridData = setInitialEmptyGrid(
-      this.state.width,
-      this.state.height,
+      this.props.width,
+      this.props.height,
       this.state.gridSize
     );
     if (this.state.type === "ant") {
       initAnt(
-        this.state.width,
-        this.state.height,
+        this.props.width,
+        this.props.height,
         this.state.gridSize,
         gridData
       );
       this.setState({
         position: {
-          x: this.state.width / this.state.gridSize / 2,
-          y: this.state.height / this.state.gridSize / 2
+          x: this.props.width / this.state.gridSize / 2,
+          y: this.props.height / this.state.gridSize / 2
         },
         direction: "up"
       });
@@ -217,9 +240,8 @@ class Canvas extends Component {
       gridData: gridData
     });
   };
-  setType = ev => {
-    const ctx = this.refs.canvasRef.getContext("2d");
-    this.createEmptyCanvas(ctx);
+  setType = (ev: window.HTMLInputElement) => {
+    this.createEmptyCanvas();
     this.setState({
       type: ev.target.value
     });
@@ -239,7 +261,7 @@ class Canvas extends Component {
     }
     this.setState({ gridData });
   };
-  setCellType = ev => {
+  setCellType = (ev: window.HTMLInputElement) => {
     this.setState({ editorCellType: parseInt(ev.target.value) });
   };
   copyGridData = () => copy(JSON.stringify(this.state.gridData));
@@ -254,7 +276,7 @@ class Canvas extends Component {
   };
 
   render() {
-    const { width, height } = this.state;
+    const { width, height } = this.props;
     return (
       <div className="canvas">
         <canvas

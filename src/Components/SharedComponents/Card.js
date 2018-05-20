@@ -1,16 +1,26 @@
+// @flow
+
 import React from "react";
 import Canvas from "../Canvas";
 import "../../Styles/card.css";
 
-const Card = props => (
+type Props = {
+  name: string,
+  height: number,
+  width: number,
+  gridSize: number,
+  gridData: Array<any>
+};
+
+const Card = ({ name, height, width, gridSize, gridData }: Props) => (
   <div className="card">
-    <div className="card_name">{props.name}</div>
+    <div className="card_name">{name}</div>
     <div className="card_canvas">
       <Canvas
-        height={props.height || 250}
-        width={props.width || 250}
-        gridSize={props.gridSize || 10}
-        gridData={props.gridData}
+        height={height || 250}
+        width={width || 250}
+        gridSize={gridSize || 10}
+        gridData={gridData}
       />
     </div>
   </div>

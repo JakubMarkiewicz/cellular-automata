@@ -1,6 +1,8 @@
 import React from "react";
 import "../../Styles/layout.css";
 
-const Layout = props => <div className="layout">{props.children}</div>;
+const Layout = ({ children }: Props) => (
+  <div className="layout">{children}</div>
+);
 
 export default Layout;

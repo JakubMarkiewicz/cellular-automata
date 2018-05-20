@@ -1,0 +1,12 @@
+[ignore]
+
+[include]
+
+[libs]
+./src/lib/
+[lints]
+
+[options]
+module.name_mapper='^~/\(.*\)$' -> '<PROJECT_ROOT>/\1'
+suppress_comment= \\(.\\|\n\\)*\\$ExpectFlowError
+[strict]
