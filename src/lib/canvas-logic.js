@@ -16,18 +16,16 @@ export const drawGrid = (ctx, width, height, gridSize) => {
   }
 };
 
-export const setInitialGrid = (width, height, gridSize) =>
-  randomizeGrid(setInitialEmptyGrid(width, height, gridSize));
-
 export const setInitialEmptyGrid = (width, height, gridSize) =>
-  Array.from({ length: height / gridSize }, row =>
-    Array.from({ length: width / gridSize }, val => 0)
+  Array.from({ length: height / gridSize }, () =>
+    Array.from({ length: width / gridSize }, () => 0)
   );
 
 const randomizeGrid = grid =>
-  grid.map(row =>
-    row.map(singleVal => (singleVal = Math.random() < possibility ? 0 : 1))
-  );
+  grid.map(row => row.map(() => (Math.random() < possibility ? 0 : 1)));
+
+export const setInitialGrid = (width, height, gridSize) =>
+  randomizeGrid(setInitialEmptyGrid(width, height, gridSize));
 
 export const updateCanvas = (grid, ctx, width, height, gridSize) => {
   drawGrid(ctx, width, height, gridSize);
@@ -42,8 +40,29 @@ export const updateCanvas = (grid, ctx, width, height, gridSize) => {
           gridSize - gridSize * 0.04
         );
       }
+      return singleVal;
     })
   );
+};
+
+export const countSurrounding = (grid, rowInd, colInd, height, gridSize) => {
+  let count = 0;
+  // left right
+  if (grid[rowInd][colInd - 1] === 1) count += 1;
+  if (grid[rowInd][colInd + 1] === 1) count += 1;
+  // top
+  if (rowInd > 0) {
+    if (grid[rowInd - 1][colInd - 1] === 1) count += 1;
+    if (grid[rowInd - 1][colInd] === 1) count += 1;
+    if (grid[rowInd - 1][colInd + 1] === 1) count += 1;
+  }
+  // bot
+  if (rowInd + 1 < height / gridSize) {
+    if (grid[rowInd + 1][colInd - 1] === 1) count += 1;
+    if (grid[rowInd + 1][colInd] === 1) count += 1;
+    if (grid[rowInd + 1][colInd + 1] === 1) count += 1;
+  }
+  return count;
 };
 
 export const surroundingGrid = (grid, width, height, gridSize) =>
@@ -55,23 +74,3 @@ export const surroundingGrid = (grid, width, height, gridSize) =>
       return 0;
     })
   );
-
-export const countSurrounding = (grid, rowInd, colInd, height, gridSize) => {
-  let count = 0;
-  //left right
-  if (grid[rowInd][colInd - 1] === 1) count += 1;
-  if (grid[rowInd][colInd + 1] === 1) count += 1;
-  //top
-  if (rowInd > 0) {
-    if (grid[rowInd - 1][colInd - 1] === 1) count += 1;
-    if (grid[rowInd - 1][colInd] === 1) count += 1;
-    if (grid[rowInd - 1][colInd + 1] === 1) count += 1;
-  }
-  //bot
-  if (rowInd + 1 < height / gridSize) {
-    if (grid[rowInd + 1][colInd - 1] === 1) count += 1;
-    if (grid[rowInd + 1][colInd] === 1) count += 1;
-    if (grid[rowInd + 1][colInd + 1] === 1) count += 1;
-  }
-  return count;
-};

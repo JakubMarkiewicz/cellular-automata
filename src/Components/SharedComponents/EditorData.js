@@ -9,7 +9,9 @@ type Props = {
   copyGridData: Function
 };
 
-const EditorData = ({ setType, type, setCellType, copyGridData }: Props) => (
+const EditorData = ({
+  setType, type, setCellType, copyGridData,
+}: Props) => (
   <div className="data">
     <select onChange={setType}>
       <option value="life">Game of life</option>

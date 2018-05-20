@@ -8,5 +8,4 @@ export const moveSeeds = (grid, width, height, gridSize) =>
         if (count === 2) return 1;
       }
       return 0;
-    })
-  );
+    }));

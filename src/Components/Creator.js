@@ -15,13 +15,15 @@ class Creator extends Component<Props, State> {
     gridSize: 0,
     width: 0,
     height: 0,
-    building: true
+    building: true,
   };
   onChange = (type: string, data: string) =>
     this.setState({ [type]: parseInt(data) });
   createCanvas = () => this.setState({ building: false });
   render() {
-    const { building, gridSize, width, height } = this.state;
+    const {
+      building, gridSize, width, height,
+    } = this.state;
     return (
       <div className="creator">
         {building ? (
@@ -57,8 +59,8 @@ class Creator extends Component<Props, State> {
             height={height}
             width={width}
             gridSize={gridSize}
-            building={true}
-            creator={true}
+            building
+            creator
             type="creator"
           />
         )}

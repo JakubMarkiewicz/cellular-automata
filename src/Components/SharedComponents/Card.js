@@ -12,7 +12,9 @@ type Props = {
   gridData: Array<any>
 };
 
-const Card = ({ name, height, width, gridSize, gridData }: Props) => (
+const Card = ({
+  name, height, width, gridSize, gridData,
+}: Props) => (
   <div className="card">
     <div className="card_name">{name}</div>
     <div className="card_canvas">

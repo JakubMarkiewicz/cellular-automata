@@ -1,6 +1,5 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { linkTo } from "@storybook/addon-links";
 import Card from "../../Components/SharedComponents/Card";
 import { beehive, block, boat, loaf, tub } from "../../consts/conway-types";
 

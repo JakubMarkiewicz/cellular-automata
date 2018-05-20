@@ -1,6 +1,8 @@
 import React from "react";
 
-const Data = ({ generation, setRunning, resetState, running }) => (
+const Data = ({
+  generation, setRunning, resetState, running,
+}) => (
   <div className="data">
     <span>Generation: {generation}</span>
     <button onClick={setRunning}>{running ? "Pause" : "Continue"}</button>

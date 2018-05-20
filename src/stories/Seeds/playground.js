@@ -1,6 +1,5 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { linkTo } from "@storybook/addon-links";
 import Layout from "../../Components/SharedComponents/Layout";
 import Canvas from "../../Components/Canvas";
 import { initSeeds } from "../../consts/seeds-types";
