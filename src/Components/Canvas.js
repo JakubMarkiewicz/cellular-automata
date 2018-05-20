@@ -26,7 +26,7 @@ type State = {
   generation: number,
   editorCellType: number,
   running: boolean,
-  intervalId?: Function,
+  intervalId?: IntervalID,
   position?: Object,
   direction?: string
 };
