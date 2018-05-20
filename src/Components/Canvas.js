@@ -6,7 +6,7 @@ import {
   setInitialGrid,
   updateCanvas,
   surroundingGrid,
-  setInitialEmptyGrid,
+  setInitialEmptyGrid
 } from "../lib/canvas-logic";
 import { updateWireCanvas, moveWire } from "../lib/wireworld-logic";
 import { initAnt, moveAnt } from "../lib/langtons-logic";
@@ -54,7 +54,7 @@ class Canvas extends Component<Props, State> {
     editorCellType: 1,
     running: true,
     position: {},
-    direction: "",
+    direction: ""
   };
   componentDidMount() {
     this.selectCanvas();
@@ -82,8 +82,8 @@ class Canvas extends Component<Props, State> {
         gridData: setInitialGrid(
           this.props.width,
           this.props.height,
-          this.state.gridSize,
-        ),
+          this.state.gridSize
+        )
       });
     } else {
       this.setState({ gridData: this.props.gridData });
@@ -100,7 +100,7 @@ class Canvas extends Component<Props, State> {
           ctx,
           this.props.width,
           this.props.height,
-          this.state.gridSize,
+          this.state.gridSize
         );
         break;
       case "brain":
@@ -109,7 +109,7 @@ class Canvas extends Component<Props, State> {
           ctx,
           this.props.width,
           this.props.height,
-          this.state.gridSize,
+          this.state.gridSize
         );
         break;
       default:
@@ -118,7 +118,7 @@ class Canvas extends Component<Props, State> {
           ctx,
           this.props.width,
           this.props.height,
-          this.state.gridSize,
+          this.state.gridSize
         );
     }
   };
@@ -136,11 +136,11 @@ class Canvas extends Component<Props, State> {
             this.state.gridData,
             this.props.width,
             this.props.height,
-            this.state.gridSize,
+            this.state.gridSize
           );
           this.setState(prevState => ({
             gridData: newGrid,
-            generation: prevState.generation + 1,
+            generation: prevState.generation + 1
           }));
         }, this.state.speed);
         this.setState({ intervalId: lifeInterval });
@@ -152,11 +152,11 @@ class Canvas extends Component<Props, State> {
           const gridData = moveWire(
             this.state.gridData,
             this.props.height,
-            this.state.gridSize,
+            this.state.gridSize
           );
           this.setState(prevState => ({
             gridData,
-            generation: prevState.generation + 1,
+            generation: prevState.generation + 1
           }));
         }, this.state.speed);
         this.setState({ intervalId: wireInterval });
@@ -168,12 +168,12 @@ class Canvas extends Component<Props, State> {
           const data = moveAnt(
             this.state.position,
             this.state.direction,
-            this.state.gridData,
+            this.state.gridData
           );
           this.setState(prevState => ({
             gridData: data.gridData,
             direction: data.newDirection,
-            generation: prevState.generation + 1,
+            generation: prevState.generation + 1
           }));
         }, this.state.speed);
         this.setState({ intervalId: antInterval });
@@ -186,11 +186,11 @@ class Canvas extends Component<Props, State> {
             this.state.gridData,
             this.props.width,
             this.props.height,
-            this.state.gridSize,
+            this.state.gridSize
           );
           this.setState(prevState => ({
             gridData,
-            generation: prevState.generation + 1,
+            generation: prevState.generation + 1
           }));
         }, this.state.speed);
         this.setState({ intervalId: seedsInterval });
@@ -202,11 +202,11 @@ class Canvas extends Component<Props, State> {
             this.state.gridData,
             this.props.width,
             this.props.height,
-            this.state.gridSize,
+            this.state.gridSize
           );
           this.setState(prevState => ({
             gridData,
-            generation: prevState.generation + 1,
+            generation: prevState.generation + 1
           }));
         }, this.state.speed);
         this.setState({ intervalId: brainInterval });
@@ -220,38 +220,38 @@ class Canvas extends Component<Props, State> {
     const gridData = setInitialEmptyGrid(
       this.props.width,
       this.props.height,
-      this.state.gridSize,
+      this.state.gridSize
     );
     if (this.state.type === "ant") {
       initAnt(
         this.props.width,
         this.props.height,
         this.state.gridSize,
-        gridData,
+        gridData
       );
       this.setState({
         position: {
           x: this.props.width / this.state.gridSize / 2,
-          y: this.props.height / this.state.gridSize / 2,
+          y: this.props.height / this.state.gridSize / 2
         },
-        direction: "up",
+        direction: "up"
       });
     }
     this.setState({
-      gridData,
+      gridData
     });
   };
   setType = (ev: window.HTMLInputElement) => {
     this.createEmptyCanvas();
     this.setState({
-      type: ev.target.value,
+      type: ev.target.value
     });
   };
 
   setRunning = () =>
     this.setState(prevState => ({ running: !prevState.running }));
 
-  setEditableCell = (ev) => {
+  setEditableCell = ev => {
     const x = Math.floor(ev.layerX / this.state.gridSize);
     const y = Math.floor(ev.layerY / this.state.gridSize);
     const gridData = this.state.gridData;
@@ -271,7 +271,7 @@ class Canvas extends Component<Props, State> {
     clearInterval(this.state.intervalId);
     this.setState({
       generation: 0,
-      gridData: this.props.gridData || [],
+      gridData: this.props.gridData || []
     });
     this.selectCanvas();
   };
@@ -292,6 +292,7 @@ class Canvas extends Component<Props, State> {
             setRunning={this.setRunning}
             running={this.state.running}
             resetState={this.resetState}
+            speed={this.state.speed}
           />
         ) : (
           <EditorData

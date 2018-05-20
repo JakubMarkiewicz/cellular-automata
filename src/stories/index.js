@@ -1,3 +1,5 @@
+import "../Styles/global.css";
+
 import "./GameOfLife/Static";
 import "./GameOfLife/Oscilators";
 import "./GameOfLife/GliderGun";

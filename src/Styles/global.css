@@ -1,0 +1,19 @@
+* {
+  font-family: monospace;
+}
+button {
+  background: #706fd3;
+  color: white;
+  border: none;
+  padding: 10px;
+  min-width: 100px;
+  font-size: 16px;
+  margin: 0px 5px;
+  transition: 0.2s all;
+  cursor: pointer;
+}
+
+button:hover {
+  border-radius: 3px;
+  background: #6fa0d3;
+}
