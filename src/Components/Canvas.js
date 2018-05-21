@@ -55,7 +55,7 @@ class Canvas extends Component<Props, State> {
     running: this.props.running || true,
     position: {},
     direction: "",
-    testCreator: false
+    testRunning: false
   };
   componentDidMount() {
     this.selectCanvas();
@@ -130,7 +130,7 @@ class Canvas extends Component<Props, State> {
   setInterval = () => {
     switch (this.state.type) {
       case "life":
-        if (!this.testRunning) this.initCanvas();
+        if (!this.state.testRunning) this.initCanvas();
         this.timer = setInterval(() => {
           if (!this.state.running) return;
           const newGrid = surroundingGrid(
@@ -276,15 +276,17 @@ class Canvas extends Component<Props, State> {
     this.selectCanvas();
   };
   testCreator = () => {
-    this.testRunning = !this.testRunning;
-    console.log(this.testRunning);
-    if (this.testRunning) {
-      this.setInterval();
-    } else {
-      clearInterval(this.timer);
-    }
+    this.setState(
+      prevState => ({ testRunning: !prevState.testRunning }),
+      () => {
+        if (this.state.testRunning) {
+          this.setInterval();
+        } else {
+          clearInterval(this.timer);
+        }
+      }
+    );
   };
-  testRunning = false;
   timer;
   generation = 0;
   render() {
@@ -312,7 +314,7 @@ class Canvas extends Component<Props, State> {
             setType={this.setType}
             copyGridData={this.copyGridData}
             testCreator={this.testCreator}
-            timer={this.timer}
+            testRunning={this.state.testRunning}
           />
         )}
       </div>

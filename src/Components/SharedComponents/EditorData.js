@@ -7,7 +7,7 @@ type Props = {
   type: string,
   setCellType: Function,
   copyGridData: Function,
-  timer: boolean
+  testRunning: boolean
 };
 
 const EditorData = ({
@@ -16,7 +16,7 @@ const EditorData = ({
   setCellType,
   copyGridData,
   testCreator,
-  timer
+  testRunning
 }: Props) => (
   <div className="data">
     <div className="data__select">
@@ -41,7 +41,7 @@ const EditorData = ({
         Copy Data
       </button>
       <button type="button" onClick={testCreator}>
-        {!timer ? "Start test" : "Pause Test"}
+        {!testRunning ? "Start test" : "Pause Test"}
       </button>
     </div>
   </div>
