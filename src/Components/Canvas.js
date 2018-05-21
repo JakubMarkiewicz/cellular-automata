@@ -29,7 +29,8 @@ type State = {
   editorCellType: number,
   running: boolean,
   position?: Object,
-  direction?: string
+  direction?: string,
+  testCreator?: boolean
 };
 
 type Props = {
@@ -51,9 +52,10 @@ class Canvas extends Component<Props, State> {
     type: this.props.type || "life",
     creator: this.props.creator || false,
     editorCellType: 1,
-    running: true,
+    running: this.props.running || true,
     position: {},
-    direction: ""
+    direction: "",
+    testCreator: false
   };
   componentDidMount() {
     this.selectCanvas();
@@ -128,7 +130,7 @@ class Canvas extends Component<Props, State> {
   setInterval = () => {
     switch (this.state.type) {
       case "life":
-        this.initCanvas();
+        if (!this.testRunning) this.initCanvas();
         this.timer = setInterval(() => {
           if (!this.state.running) return;
           const newGrid = surroundingGrid(
@@ -273,6 +275,16 @@ class Canvas extends Component<Props, State> {
     });
     this.selectCanvas();
   };
+  testCreator = () => {
+    this.testRunning = !this.testRunning;
+    console.log(this.testRunning);
+    if (this.testRunning) {
+      this.setInterval();
+    } else {
+      clearInterval(this.timer);
+    }
+  };
+  testRunning = false;
   timer;
   generation = 0;
   render() {
@@ -299,6 +311,8 @@ class Canvas extends Component<Props, State> {
             type={this.state.type}
             setType={this.setType}
             copyGridData={this.copyGridData}
+            testCreator={this.testCreator}
+            timer={this.timer}
           />
         )}
       </div>

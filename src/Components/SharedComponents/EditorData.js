@@ -6,10 +6,18 @@ type Props = {
   setType: Function,
   type: string,
   setCellType: Function,
-  copyGridData: Function
+  copyGridData: Function,
+  timer: boolean
 };
 
-const EditorData = ({ setType, type, setCellType, copyGridData }: Props) => (
+const EditorData = ({
+  setType,
+  type,
+  setCellType,
+  copyGridData,
+  testCreator,
+  timer
+}: Props) => (
   <div className="data">
     <div className="data__select">
       <select onChange={setType}>
@@ -29,13 +37,13 @@ const EditorData = ({ setType, type, setCellType, copyGridData }: Props) => (
           <option value="1">Live</option>
         </select>
       )}
+      <button type="button" onClick={copyGridData}>
+        Copy Data
+      </button>
+      <button type="button" onClick={testCreator}>
+        {!timer ? "Start test" : "Pause Test"}
+      </button>
     </div>
-    <button type="button" onClick={copyGridData}>
-      Copy Data
-    </button>
-    <button type="button" onClick={copyGridData}>
-      Test
-    </button>
   </div>
 );
 

@@ -64,8 +64,8 @@ class Creator extends Component<Props, State> {
               height={height}
               width={width}
               gridSize={gridSize}
-              building
-              creator
+              building={building}
+              creator={true}
               type="creator"
             />
           </Layout>
