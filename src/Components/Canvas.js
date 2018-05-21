@@ -14,6 +14,7 @@ import Data from "./SharedComponents/Data";
 import EditorData from "./SharedComponents/EditorData";
 import { moveSeeds } from "../lib/seeds-logic";
 import { moveBrain, updateBrainCanvas } from "../lib/brain-logic";
+import { randomCenterFill, build2DArray } from "../lib/utils";
 
 const copy = require("clipboard-copy");
 
@@ -174,6 +175,9 @@ class Canvas extends Component<Props, State> {
         }, this.state.speed);
         break;
       case "seeds":
+        this.setState({
+          gridData: randomCenterFill(build2DArray(120, 200), 0.5, 3)
+        });
         this.timer = setInterval(() => {
           if (!this.state.running) return;
           const gridData = moveSeeds(
@@ -189,6 +193,9 @@ class Canvas extends Component<Props, State> {
         }, this.state.speed);
         break;
       case "brain":
+        this.setState({
+          gridData: randomCenterFill(build2DArray(120, 200), 0.9, 40)
+        });
         this.timer = setInterval(() => {
           if (!this.state.running) return;
           const gridData = moveBrain(

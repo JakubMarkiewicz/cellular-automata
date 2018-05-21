@@ -33,6 +33,9 @@ const EditorData = ({ setType, type, setCellType, copyGridData }: Props) => (
     <button type="button" onClick={copyGridData}>
       Copy Data
     </button>
+    <button type="button" onClick={copyGridData}>
+      Test
+    </button>
   </div>
 );
 
