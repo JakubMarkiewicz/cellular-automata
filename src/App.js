@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <Layout>
-        <Canvas width={1000} height={600} gridSize={5} speed={100} />
+        <Canvas width={1000} height={600} gridSize={5} speed={50} />
       </Layout>
     );
   }

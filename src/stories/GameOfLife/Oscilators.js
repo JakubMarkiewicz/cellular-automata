@@ -14,7 +14,13 @@ storiesOf("Conway's Game of Life", module).add("Oscilators", () => (
   >
     <Card name="BLINKER" gridSize={50} gridData={blinker} />
     <Card name="TOAD" gridSize={42} gridData={toad} />
-    <Card name="BEACON" gridSize={42} gridData={beacon} />
+    <Card
+      name="BEACON"
+      gridSize={40}
+      height={240}
+      width={240}
+      gridData={beacon}
+    />
     <Card name="PULSAR" gridSize={15} gridData={pulsar} />
   </div>
 ));

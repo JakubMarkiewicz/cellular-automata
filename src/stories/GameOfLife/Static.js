@@ -13,8 +13,14 @@ storiesOf("Conway's Game of Life", module).add("Static", () => (
     }}
   >
     <Card name="BLOCK" gridSize={62.5} gridData={block} />
-    <Card name="BEEHIVE" gridSize={42} gridData={beehive} />
-    <Card name="LOAF" gridSize={42} gridData={loaf} />
+    <Card
+      name="BEEHIVE"
+      gridSize={40}
+      width={240}
+      height={240}
+      gridData={beehive}
+    />
+    <Card name="LOAF" gridSize={40} width={240} height={240} gridData={loaf} />
     <Card name="BOAT" gridSize={50} gridData={boat} />
     <Card name="TUB" gridSize={50} gridData={tub} />
   </div>

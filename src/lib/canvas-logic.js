@@ -1,4 +1,4 @@
-const possibility = 0.8;
+const possibility = 0.9;
 
 export const drawGrid = (ctx, width, height, gridSize) => {
   ctx.strokeStyle = "#111";
@@ -45,30 +45,59 @@ export const updateCanvas = (grid, ctx, width, height, gridSize) => {
   );
 };
 
-export const countSurrounding = (grid, rowInd, colInd, height, gridSize) => {
+export const countSurrounding = (
+  grid,
+  rowInd,
+  colInd,
+  height,
+  width,
+  gridSize
+) => {
   let count = 0;
-  // left right
-  if (grid[rowInd][colInd - 1] === 1) count += 1;
-  if (grid[rowInd][colInd + 1] === 1) count += 1;
-  // top
-  if (rowInd > 0) {
-    if (grid[rowInd - 1][colInd - 1] === 1) count += 1;
-    if (grid[rowInd - 1][colInd] === 1) count += 1;
-    if (grid[rowInd - 1][colInd + 1] === 1) count += 1;
+  for (let i = -1; i < 2; i++) {
+    for (let j = -1; j < 2; j++) {
+      const row =
+        (rowInd + i + Math.floor(height / gridSize)) %
+        Math.floor(height / gridSize);
+      const col =
+        (colInd + j + Math.floor(width / gridSize)) %
+        Math.floor(width / gridSize);
+      count = grid[row][col] === 1 ? count + 1 : count;
+    }
   }
-  // bot
-  if (rowInd + 1 < height / gridSize) {
-    if (grid[rowInd + 1][colInd - 1] === 1) count += 1;
-    if (grid[rowInd + 1][colInd] === 1) count += 1;
-    if (grid[rowInd + 1][colInd + 1] === 1) count += 1;
-  }
+  count = grid[rowInd][colInd] > 0 ? count - 1 : count;
   return count;
+
+  // let count = 0;
+  // // left right
+  // if (grid[rowInd][colInd - 1] === 1) count += 1;
+  // if (grid[rowInd][colInd + 1] === 1) count += 1;
+  // // top
+  // if (rowInd > 0) {
+  //   if (grid[rowInd - 1][colInd - 1] === 1) count += 1;
+  //   if (grid[rowInd - 1][colInd] === 1) count += 1;
+  //   if (grid[rowInd - 1][colInd + 1] === 1) count += 1;
+  // }
+  // // bot
+  // if (rowInd + 1 < height / gridSize) {
+  //   if (grid[rowInd + 1][colInd - 1] === 1) count += 1;
+  //   if (grid[rowInd + 1][colInd] === 1) count += 1;
+  //   if (grid[rowInd + 1][colInd + 1] === 1) count += 1;
+  // }
+  // return count;
 };
 
 export const surroundingGrid = (grid, width, height, gridSize) =>
   grid.map((row, rowInd) =>
     row.map((val, colInd) => {
-      const count = countSurrounding(grid, rowInd, colInd, height, gridSize);
+      const count = countSurrounding(
+        grid,
+        rowInd,
+        colInd,
+        height,
+        width,
+        gridSize
+      );
       if (val === 1 && (count === 2 || count === 3)) return 1;
       if (val === 0 && count === 3) return 1;
       return 0;

@@ -4,12 +4,20 @@ export const moveBrain = (grid, width, height, gridSize) =>
   grid.map((row, rowInd) =>
     row.map((val, colInd) => {
       if (val === 0) {
-        const count = countSurrounding(grid, rowInd, colInd, height, gridSize);
+        const count = countSurrounding(
+          grid,
+          rowInd,
+          colInd,
+          height,
+          width,
+          gridSize
+        );
         if (count === 2) return 1;
       }
       if (val === 1) return 2;
       return 0;
-    }));
+    })
+  );
 
 export const updateBrainCanvas = (grid, ctx, width, height, gridSize) => {
   drawGrid(ctx, width, height, gridSize);
@@ -21,7 +29,7 @@ export const updateBrainCanvas = (grid, ctx, width, height, gridSize) => {
           colInd * gridSize + gridSize * 0.02,
           rowInd * gridSize + gridSize * 0.02,
           gridSize - gridSize * 0.04,
-          gridSize - gridSize * 0.04,
+          gridSize - gridSize * 0.04
         );
       }
       if (singleVal === 2) {
@@ -30,8 +38,9 @@ export const updateBrainCanvas = (grid, ctx, width, height, gridSize) => {
           colInd * gridSize + gridSize * 0.02,
           rowInd * gridSize + gridSize * 0.02,
           gridSize - gridSize * 0.04,
-          gridSize - gridSize * 0.04,
+          gridSize - gridSize * 0.04
         );
       }
-    }));
+    })
+  );
 };
