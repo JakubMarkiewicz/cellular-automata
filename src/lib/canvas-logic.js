@@ -67,24 +67,6 @@ export const countSurrounding = (
   }
   count = grid[rowInd][colInd] > 0 ? count - 1 : count;
   return count;
-
-  // let count = 0;
-  // // left right
-  // if (grid[rowInd][colInd - 1] === 1) count += 1;
-  // if (grid[rowInd][colInd + 1] === 1) count += 1;
-  // // top
-  // if (rowInd > 0) {
-  //   if (grid[rowInd - 1][colInd - 1] === 1) count += 1;
-  //   if (grid[rowInd - 1][colInd] === 1) count += 1;
-  //   if (grid[rowInd - 1][colInd + 1] === 1) count += 1;
-  // }
-  // // bot
-  // if (rowInd + 1 < height / gridSize) {
-  //   if (grid[rowInd + 1][colInd - 1] === 1) count += 1;
-  //   if (grid[rowInd + 1][colInd] === 1) count += 1;
-  //   if (grid[rowInd + 1][colInd + 1] === 1) count += 1;
-  // }
-  // return count;
 };
 
 export const surroundingGrid = (grid, width, height, gridSize) =>

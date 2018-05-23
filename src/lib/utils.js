@@ -1,9 +1,9 @@
 // @flow
 
 export const randomCenterFill = (
-  arr: Array<Array>,
-  probability: Number,
-  spread: Number
+  arr: Array<any>,
+  probability: number,
+  spread: number
 ) => {
   const startingRow = Math.floor((arr.length - 1) / 2) - spread;
   const endingRow = Math.floor((arr.length - 1) / 2) + spread;

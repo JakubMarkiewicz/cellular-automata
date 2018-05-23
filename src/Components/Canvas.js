@@ -19,18 +19,19 @@ import { randomCenterFill, build2DArray } from "../lib/utils";
 const copy = require("clipboard-copy");
 
 type State = {
+  building: boolean,
+  creator: boolean,
+  direction?: string,
+  editorCellType: number,
+  generation: number,
   gridData: Array<any>,
   gridSize: number,
-  speed: number,
-  building: boolean,
-  type: string,
-  creator: boolean,
-  generation: number,
-  editorCellType: number,
-  running: boolean,
   position?: Object,
-  direction?: string,
-  testCreator?: boolean
+  running: boolean,
+  speed: number,
+  testCreator?: Function,
+  testRunning: boolean,
+  type: string
 };
 
 type Props = {
@@ -125,7 +126,19 @@ class Canvas extends Component<Props, State> {
   };
   createEditableCanvas = () => {
     this.createEmptyCanvas();
-    this.refs.canvasRef.addEventListener("click", this.setEditableCell);
+    // this.refs.canvasRef.addEventListener("click", this.setEditableCell);
+    this.refs.canvasRef.addEventListener(
+      "mousedown",
+      this.setEditableCellMouseDown
+    );
+    this.refs.canvasRef.addEventListener(
+      "mousemove",
+      this.setEditableCellMouseMove
+    );
+    this.refs.canvasRef.addEventListener(
+      "mouseup",
+      this.setEditableCellMouseOut
+    );
   };
   setInterval = () => {
     switch (this.state.type) {
@@ -148,7 +161,6 @@ class Canvas extends Component<Props, State> {
       case "wire":
         this.timer = setInterval(() => {
           if (!this.state.running) return;
-          // const data = moveWire(this.state.gridData);
           const gridData = moveWire(
             this.state.gridData,
             this.props.height,
@@ -252,16 +264,24 @@ class Canvas extends Component<Props, State> {
   setRunning = () =>
     this.setState(prevState => ({ running: !prevState.running }));
 
-  setEditableCell = ev => {
+  setEditableCellMouseDown = ev => {
     const x = Math.floor(ev.layerX / this.state.gridSize);
     const y = Math.floor(ev.layerY / this.state.gridSize);
     const gridData = this.state.gridData;
-    if (gridData[y][x] === this.state.editorCellType) {
-      gridData[y][x] = 0;
-    } else {
+    gridData[y][x] = this.state.editorCellType;
+    this.setState({ gridData, mousedown: true });
+  };
+  setEditableCellMouseMove = ev => {
+    if (this.state.mousedown) {
+      const x = Math.floor(ev.layerX / this.state.gridSize);
+      const y = Math.floor(ev.layerY / this.state.gridSize);
+      const gridData = this.state.gridData;
       gridData[y][x] = this.state.editorCellType;
+      this.setState({ gridData });
     }
-    this.setState({ gridData });
+  };
+  setEditableCellMouseOut = ev => {
+    this.setState({ mousedown: false });
   };
   setCellType = (ev: window.HTMLInputElement) => {
     this.setState({ editorCellType: parseInt(ev.target.value) });
@@ -287,7 +307,7 @@ class Canvas extends Component<Props, State> {
       }
     );
   };
-  timer;
+  timer: IntervalID;
   generation = 0;
   render() {
     const { width, height } = this.props;

@@ -4,7 +4,7 @@ import Parser from "html-react-parser";
 import "../../Styles/markdown.css";
 
 type Props = {
-  children: React.Children
+  children: React$Element<any>
 };
 
 const Markdown = ({ children }: Props) => (

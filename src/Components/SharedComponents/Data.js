@@ -1,7 +1,23 @@
+// @flow
+
 import React from "react";
 import "../../Styles/data.css";
 
-const Data = ({ generation, setRunning, resetState, running, speed }) => (
+type Props = {
+  generation: number,
+  setRunning: Function,
+  resetState: Function,
+  running: boolean,
+  speed: number
+};
+
+const Data = ({
+  generation,
+  setRunning,
+  resetState,
+  running,
+  speed
+}: Props) => (
   <div className="data">
     <div className="data__info">
       <span className="data__info__single">Generation: {generation}</span>

@@ -7,7 +7,8 @@ type Props = {
   type: string,
   setCellType: Function,
   copyGridData: Function,
-  testRunning: boolean
+  testRunning: boolean,
+  testCreator: boolean
 };
 
 const EditorData = ({

@@ -8,6 +8,7 @@ import "./GameOfLife/SpaceShips";
 import "./GameOfLife/playground";
 
 import "./Wireworld/Intro";
+import "./Wireworld/Examples/example1";
 import "./Wireworld/ANDNOT";
 import "./Wireworld/OR";
 import "./Wireworld/XOR";
